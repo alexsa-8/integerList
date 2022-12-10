@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class IntegerListApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(IntegerListApplication.class, args);
     }
 
