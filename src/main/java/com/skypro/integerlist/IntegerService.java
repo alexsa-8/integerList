@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class IntegerService implements IntegerList {
 
-    private final Integer[] integers;
+    private Integer[] integers;
 
     private int size;
 
@@ -152,21 +152,43 @@ public class IntegerService implements IntegerList {
         return Arrays.copyOf(integers, size);
     }
 
+    @Override
+    public  void mergeSort(Integer[] integers) {
+        if (integers.length < 2) {
+            return;
+        }
+        int mid = integers.length / 2;
+        Integer[] left = new Integer[mid];
+        Integer[] right = new Integer[integers.length - mid];
+
+        System.arraycopy(integers, 0, left, 0, left.length);
+        System.arraycopy(integers, mid, right, 0, right.length);
+
+        mergeSort(left);
+        mergeSort(right);
+
+        merge(integers, left, right);
+    }
+
+    private void grow() {
+        integers = Arrays.copyOf(integers, (int) (integers.length * 1.5));
+    }
+
     private static void swapElements(Integer[] integers, int index1, int index2) {
         int tmp = integers[index1];
         integers[index1] = integers[index2];
         integers[index2] = tmp;
     }
 
-//    public void sortBubble(Integer[] integers) {
-//        for (int i = 0; i < integers.length - 1; i++) {
-//            for (int j = 0; j < integers.length - 1 - i; j++) {
-//                if (integers[j] > integers[j + 1]) {
-//                    swapElements(integers, j, j + 1);
-//                }
-//            }
-//        }
-//    }
+    public void sortBubble(Integer[] integers) {
+        for (int i = 0; i < integers.length - 1; i++) {
+            for (int j = 0; j < integers.length - 1 - i; j++) {
+                if (integers[j] > integers[j + 1]) {
+                    swapElements(integers, j, j + 1);
+                }
+            }
+        }
+    }
 
     @Override
     public void passingSorting(Integer[] integers) {
@@ -181,17 +203,17 @@ public class IntegerService implements IntegerList {
         }
     }
 
-//    public void sortInsertion(Integer[] integers) {
-//        for (int i = 1; i < integers.length; i++) {
-//            int temp = integers[i];
-//            int j = i;
-//            while (j > 0 && integers[j - 1] >= temp) {
-//                integers[j] = integers[j - 1];
-//                j--;
-//            }
-//            integers[j] = temp;
-//        }
-//    }
+    public void sortInsertion(Integer[] integers) {
+        for (int i = 1; i < integers.length; i++) {
+            int temp = integers[i];
+            int j = i;
+            while (j > 0 && integers[j - 1] >= temp) {
+                integers[j] = integers[j - 1];
+                j--;
+            }
+            integers[j] = temp;
+        }
+    }
 
     private static int binarySearch(Integer[] integers, Integer item) {
         int left = 0;
@@ -208,5 +230,24 @@ public class IntegerService implements IntegerList {
             }
         }
         return -1;
+    }
+    public void merge(Integer[] integers, Integer[] left, Integer[] right) {
+
+        int mainP = 0;
+        int leftP = 0;
+        int rightP = 0;
+        while (leftP < left.length && rightP < right.length) {
+            if (left[leftP] <= right[rightP]) {
+                integers[mainP++] = left[leftP++];
+            } else {
+                integers[mainP++] = right[rightP++];
+            }
+        }
+        while (leftP < left.length) {
+            integers[mainP++] = left[leftP++];
+        }
+        while (rightP < right.length) {
+            integers[mainP++] = right[rightP++];
+        }
     }
 }

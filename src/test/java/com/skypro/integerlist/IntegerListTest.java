@@ -106,4 +106,9 @@ class IntegerListTest {
         Integer[] list = {TEST1, TEST2, TEST3, TEST4};
         integerService.passingSorting(list);
     }
+    @Test
+    public void mergeSort() {
+        Integer[] list = {TEST1, TEST2, TEST3, TEST4};
+        integerService.mergeSort(list);
+    }
 }
